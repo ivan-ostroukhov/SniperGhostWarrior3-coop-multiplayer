@@ -20,6 +20,9 @@ std::string GetSaveDir() {
     char* userProfile = nullptr;
     size_t len = 0;
     _dupenv_s(&userProfile, &len, "USERPROFILE");
+    std::string dir = userProfile ? userProfile : ".";
+    free(userProfile);
+    return dir + "\\Saved Games\\Sniper Ghost Warrior 3\\";
 }
 
 std::string ReadWholeFile(const std::string& path) {
