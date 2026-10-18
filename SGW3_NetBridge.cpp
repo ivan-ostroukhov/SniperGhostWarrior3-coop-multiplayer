@@ -74,7 +74,10 @@ int main() {
         return 1;
     }
 
-    
+    sockaddr_in peerAddr{};
+    peerAddr.sin_family = AF_INET;
+    peerAddr.sin_port = htons(PORT);
+    peerAddr.sin_addr.s_addr = inet_addr(peerIp.c_str());
 
     std::cout << "\n[ONLINE] UDP Bridge active on port " << PORT << " -> " << peerIp << "\n";
     std::cout << "In game: Press [F6] to spawn partner, then [F7] to enable NET mode!\n\n";
