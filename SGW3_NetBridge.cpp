@@ -16,6 +16,11 @@
 
 constexpr uint16_t PORT = 27015;
 
+std::string GetSaveDir() {
+    char* userProfile = nullptr;
+    size_t len = 0;
+    _dupenv_s(&userProfile, &len, "USERPROFILE");
+}
 
 std::string ReadWholeFile(const std::string& path) {
     std::ifstream f(path, std::ios::in);
