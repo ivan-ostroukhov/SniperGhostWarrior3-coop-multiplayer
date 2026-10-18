@@ -1,1 +1,1 @@
-# SniperGhostWarrior3-multiplayer
+# SniperGhostWarrior3-coop-multiplayer
