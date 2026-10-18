@@ -1,5 +1,5 @@
 // ============================================================================
-// SGW3 CO-OP UDP BRIDGE v0.1
+// SGW3 CO-OP UDP BRIDGE v0.2
 // ============================================================================
 
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
@@ -38,6 +38,15 @@ void WriteWholeFile(const std::string& path, const std::string& content) {
     if (f.is_open()) {
         f << content;
     }
+}
+
+std::string GetLastLine(const std::string& text) {
+    if (text.empty()) return "";
+    size_t end = text.find_last_not_of("\r\n");
+    if (end == std::string::npos) return "";
+    size_t start = text.find_last_of("\r\n", end);
+    if (start == std::string::npos) return text.substr(0, end + 1);
+    return text.substr(start + 1, end - start);
 }
 
 int main() {
