@@ -58,7 +58,7 @@ int main() {
     std::cout << "   SGW3 CO-OP NETWORK BRIDGE v0.1\n";
     std::cout << "========================================\n";
     std::cout << "Work dir: " << saveDir << "\n";
-    
+    std::cout << "[OK] Old log files cleared!\n\n";
 
     std::string peerIp;
     std::cout << "Enter Partner IP (from Radmin VPN or 127.0.0.1 for local test): ";
@@ -96,13 +96,23 @@ int main() {
     int senderLen = sizeof(senderAddr);
 
     while (true) {
-        // 1. Отправка координат (канал P:)
         std::string posData = ReadWholeFile(posOut);
         if (!posData.empty() && posData != lastPosData) {
             std::string pkt = "P:" + posData;
             sendto(sock, pkt.c_str(), static_cast<int>(pkt.size()), 0,
                    reinterpret_cast<sockaddr*>(&peerAddr), sizeof(peerAddr));
             lastPosData = posData;
+        }
+
+        std::string evtData = ReadWholeFile(evtOut);
+        if (!evtData.empty() && evtData != lastEvtData) {
+            std::string pkt = "E:" + evtData;
+            for (int i = 0; i < 3; ++i) {
+                sendto(sock, pkt.c_str(), static_cast<int>(pkt.size()), 0,
+                       reinterpret_cast<sockaddr*>(&peerAddr), sizeof(peerAddr));
+            }
+            lastEvtData = evtData;
+            std::cout << "[SENT] " << GetLastLine(evtData) << "\n";
         }
 
         while (true) {
